@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="text4q",
-    version="1.0.4",
+    version="1.0.5",
     author="Gabriel De Jesus Sanchez Ferra",
     author_email="gabrielsanchezferra@gmail.com",
     description="Natural command language for quantum computing",
