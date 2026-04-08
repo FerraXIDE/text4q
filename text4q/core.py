@@ -1,5 +1,5 @@
 """
-text4q compiler core
+text4q compiler core - Multi-idioma
 """
 import re
 from typing import List, Dict, Optional, Union, Tuple
@@ -54,26 +54,16 @@ class QuantumCommand:
 
 class Text4QCompiler:
     """
-    Quantum Circuit Compiler
+    Quantum Circuit Compiler - Multi-idioma
     
-    Comandos soportados:
-    - Crear N                    : Crea circuito con N qubits
-    - H N                        : Puerta Hadamard en qubit N
-    - X N                        : Puerta Pauli-X en qubit N
-    - Y N                        : Puerta Pauli-Y en qubit N
-    - Z N                        : Puerta Pauli-Z en qubit N
-    - S N                        : Puerta S en qubit N
-    - T N                        : Puerta T en qubit N
-    - CX A B                     : CNOT control=A target=B
-    - CZ A B                     : CZ control=A target=B
-    - SWAP A B                   : Intercambia qubits A y B
-    - RX(θ) N                    : Rotación X por ángulo θ
-    - RY(θ) N                    : Rotación Y por ángulo θ
-    - RZ(θ) N                    : Rotación Z por ángulo θ
-    - Medir N                    : Medir qubit N
-    - Medir N -> C               : Medir qubit N a bit clásico C
-    - Barrera                    : Barrera en todos los qubits
-    - Bloch                      : Marca para visualización Bloch
+    Idiomas soportados:
+    - Español: crear, medir, barrera
+    - English: create, measure, barrier
+    - Français: créer, mesurer, barrière
+    - Português: criar, medir, barreira
+    - Deutsch: erstelle, messen, barriere
+    - 日本語 (Japonés): 作成, 測定, バリア
+    - 中文 (Chino): 创建, 测量, 屏障
     """
     
     def __init__(self):
@@ -82,8 +72,18 @@ class Text4QCompiler:
         self.num_cbits: int = 0
         self.circuit: Optional['QuantumCircuit'] = None
         
+        # Palabras clave en cada idioma
+        create_words = ['crear', 'create', 'créer', 'criar', 'erstelle', '作成', '创建']
+        measure_words = ['medir', 'measure', 'mesurer', 'medir', 'messen', '測定', '测量']
+        barrier_words = ['barrera', 'barrier', 'barrière', 'barreira', 'barriere', 'バリア', '屏障']
+        
+        # Construir patrones dinámicamente
+        create_pattern = r'^(' + '|'.join(create_words) + r')\s+(\d+)$'
+        measure_pattern = r'^(' + '|'.join(measure_words) + r')\s+(\d+)(?:\s*->\s*(\d+))?$'
+        barrier_pattern = r'^(' + '|'.join(barrier_words) + r')$'
+        
         self.patterns = {
-            'create': re.compile(r'^crear?\s+(\d+)$', re.IGNORECASE),
+            'create': re.compile(create_pattern, re.IGNORECASE),
             'h': re.compile(r'^[hH]\s+(\d+)$'),
             'x': re.compile(r'^[xX]\s+(\d+)$'),
             'y': re.compile(r'^[yY]\s+(\d+)$'),
@@ -96,18 +96,18 @@ class Text4QCompiler:
             'rx': re.compile(r'^rx\(([^)]+)\)\s+(\d+)$', re.IGNORECASE),
             'ry': re.compile(r'^ry\(([^)]+)\)\s+(\d+)$', re.IGNORECASE),
             'rz': re.compile(r'^rz\(([^)]+)\)\s+(\d+)$', re.IGNORECASE),
-            'measure': re.compile(r'^medir?\s+(\d+)(?:\s*->\s*(\d+))?$', re.IGNORECASE),
-            'barrier': re.compile(r'^barrera$', re.IGNORECASE),
+            'measure': re.compile(measure_pattern, re.IGNORECASE),
+            'barrier': re.compile(barrier_pattern, re.IGNORECASE),
             'bloch': re.compile(r'^bloch$', re.IGNORECASE),
         }
     
     def parse_command(self, text: str) -> Optional[QuantumCommand]:
-        """Parse a text command into a QuantumCommand"""
+        """Parse a text command into a QuantumCommand (multi-idioma)"""
         text = text.strip()
         
         match = self.patterns['create'].match(text)
         if match:
-            num = int(match.group(1))
+            num = int(match.group(2))
             return QuantumCommand(gate="CREATE", qubits=[], params=[num], raw_text=text)
         
         match = self.patterns['h'].match(text)
@@ -163,8 +163,8 @@ class Text4QCompiler:
         
         match = self.patterns['measure'].match(text)
         if match:
-            qubit = int(match.group(1))
-            cbit = int(match.group(2)) if match.group(2) else None
+            qubit = int(match.group(2))
+            cbit = int(match.group(3)) if match.group(3) else None
             return QuantumCommand(gate=GateType.MEASURE, qubits=[qubit], cbits=[cbit] if cbit else None, raw_text=text)
         
         match = self.patterns['barrier'].match(text)
