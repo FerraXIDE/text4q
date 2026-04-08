@@ -1,5 +1,6 @@
+"""
 text4q compiler core
-
+"""
 import re
 from typing import List, Dict, Optional, Union, Tuple
 from dataclasses import dataclass
