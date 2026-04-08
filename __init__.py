@@ -1,8 +1,9 @@
+# text4q/__init__.py
+"""
 text4q - Natural command language for quantum computing
+"""
 
-from .core import Text4QCompiler, QuantumCommand
-from .gates import GateFactory
-from .validator import CommandValidator
+from .core import Text4QCompiler
+from .core import HAS_QISKIT
 
-__version__ = "1.0.2"
-__all__ = ['Text4QCompiler', 'QuantumCommand', 'GateFactory', 'CommandValidator']
+__all__ = ['Text4QCompiler', 'HAS_QISKIT']
