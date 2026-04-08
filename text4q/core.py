@@ -270,15 +270,15 @@ class Text4QCompiler:
         self.circuit = circuit
         return circuit
     
-def to_qasm(self) -> str:
-    """Export the circuit to OpenQASM 2.0 format"""
-    if not self.circuit:
-        return ""
-    try:
-        from qiskit import qasm2
-        return qasm2.dumps(self.circuit)
-    except:
-        return self.circuit.qasm()
+    def to_qasm(self) -> str:
+        """Export the circuit to OpenQASM 2.0 format"""
+        if not self.circuit:
+            return ""
+        try:
+            from qiskit import qasm2
+            return qasm2.dumps(self.circuit)
+        except:
+            return self.circuit.qasm()
     
     def simulate(self, shots: int = 1024) -> Dict:
         """Simulates the compiled circuit"""
