@@ -1,4 +1,26 @@
+"""Quantum gates module for text4q"""
+
+from enum import Enum
 from typing import Dict, Optional
+
+class GateType(Enum):
+    """Supported types of quantum gates"""
+    H = "H"
+    X = "X"
+    Y = "Y"
+    Z = "Z"
+    S = "S"
+    T = "T"
+    CX = "CX"
+    CZ = "CZ"
+    SWAP = "SWAP"
+    RX = "RX"
+    RY = "RY"
+    RZ = "RZ"
+    MEASURE = "MEASURE"
+    BARRIER = "BARRIER"
+    BLOCH = "BLOCH"
+
 
 class GateFactory:
     GATE_PROPS = {
