@@ -1,5 +1,5 @@
 """
-text4q - Natural command language for quantum computing
+text4q
 """
 
 from .core import Text4QCompiler
