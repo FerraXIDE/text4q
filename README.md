@@ -1,4 +1,3 @@
-```markdown
 # text4q
 
 [![PyPI version](https://badge.fury.io/py/text4q.svg)](https://badge.fury.io/py/text4q)
